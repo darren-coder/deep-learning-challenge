@@ -8,36 +8,36 @@ After importing the necessary dependencies, the 'charity_data.csv' was read into
 
 ## Step 2: - Compile, Train, and Evaluate the Model
 
-A neural network model was defined. I used a 'Sequential' model with 'relu' activation on the first 2 layers and 'sigmoid' on the final layer. Then the model was compiled and trained. This resulted in 72.84% accuracy, not quite reaching our goal of 75%.
+A neural network model was defined. I used a 'Sequential' model with 'relu' activation on the first 2 layers and 'sigmoid' on the final layer. Then the model was compiled and trained. This resulted in 72.79% accuracy, not quite reaching our goal of 75%.
 
-### First model summary
+#### First model summary
 
 Model: "sequential"
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
 ┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
 ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ dense (Dense)                   │ (None, 128)            │         5,632 │
+│ dense (Dense)                   │ (None, 30)             │         1,320 │
 ├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_1 (Dense)                 │ (None, 64)             │         8,256 │
+│ dense_1 (Dense)                 │ (None, 15)             │           465 │
 ├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_2 (Dense)                 │ (None, 1)              │            65 │
+│ dense_2 (Dense)                 │ (None, 1)              │            16 │
 └─────────────────────────────────┴────────────────────────┴───────────────┘
- Total params: 13,953 (54.50 KB)
- Trainable params: 13,953 (54.50 KB)
+ Total params: 1,801 (7.04 KB)
+ Trainable params: 1,801 (7.04 KB)
  Non-trainable params: 0 (0.00 B)
 
-### First model evaluation
+#### First model evaluation
 
-268/268 - 1s - 2ms/step - accuracy: 0.7284 - loss: 0.5782
-Loss: 0.5782458782196045, Accuracy: 0.728396475315094
+268/268 - 1s - 2ms/step - accuracy: 0.7279 - loss: 0.5593
+Loss: 0.5592955350875854, Accuracy: 0.7279300093650818
 
 ## Step 3: Optimize the Model
 
-Since the results were underwhelming, some steps were taken to attempt optimization.
+Since the goal was not reached, some steps were taken to attempt optimization.
 
 ### Optimization 1
 
-First I tried removing another column. In the 'SPECIAL_CONSIDERATIONS' column only 27 out of 34299 applications were answered 'N'. With 99.9% percent of the applications answer being 'Y' I thought this column might not be important for the outcome. After following all of the same steps as the first model, the result was 72.97% accuracy. Slightly better, but not enough to meet our goal.
+In the first optimization, I added another layer with 'relu' activation. The accuracy was slightly less at 72.75%.
 
 #### Optimization 1 Structure
 
@@ -45,52 +45,51 @@ Model: "sequential"
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
 ┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
 ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ dense (Dense)                   │ (None, 128)            │         5,376 │
+│ dense (Dense)                   │ (None, 45)             │         1,980 │
 ├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_1 (Dense)                 │ (None, 64)             │         8,256 │
+│ dense_1 (Dense)                 │ (None, 30)             │         1,380 │
 ├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_2 (Dense)                 │ (None, 1)              │            65 │
+│ dense_2 (Dense)                 │ (None, 15)             │           465 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_3 (Dense)                 │ (None, 1)              │            16 │
 └─────────────────────────────────┴────────────────────────┴───────────────┘
- Total params: 13,697 (53.50 KB)
- Trainable params: 13,697 (53.50 KB)
+ Total params: 3,841 (15.00 KB)
+ Trainable params: 3,841 (15.00 KB)
  Non-trainable params: 0 (0.00 B)
 
 #### Optimization 1 Evaluation
 
-268/268 - 1s - 2ms/step - accuracy: 0.7297 - loss: 0.5715
-Loss: 0.5715045928955078, Accuracy: 0.72967928647995
+268/268 - 0s - 2ms/step - accuracy: 0.7275 - loss: 0.5596
+Loss: 0.5595679879188538, Accuracy: 0.7274635434150696
 
 ### Optimization 2
 
-In this attempt I kept the 'SPECIAL_CONSIDERATIONS' column out since there was a slight improvement and also added another hidden layer with 'relu' activation. The results were 72.77% accuracy, noting a slight decrease from the previous attempt.
+In the second attempt I changed to 'tanh' activation and the results were at 72.89% accuracy. I also took the layer I added in optimization 1 away. The results were almost the same as the previous attempts, still not at the goal of 75%.
 
 #### Optimization 2 Structure
 
-Model: "sequential_1"
+Model: "sequential_3"
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
 ┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
 ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ dense_3 (Dense)                 │ (None, 256)            │        10,752 │
+│ dense_11 (Dense)                │ (None, 30)             │         1,320 │
 ├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_4 (Dense)                 │ (None, 128)            │        32,896 │
+│ dense_12 (Dense)                │ (None, 15)             │           465 │
 ├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_5 (Dense)                 │ (None, 64)             │         8,256 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_6 (Dense)                 │ (None, 1)              │            65 │
+│ dense_13 (Dense)                │ (None, 1)              │            16 │
 └─────────────────────────────────┴────────────────────────┴───────────────┘
- Total params: 51,969 (203.00 KB)
- Trainable params: 51,969 (203.00 KB)
+ Total params: 1,801 (7.04 KB)
+ Trainable params: 1,801 (7.04 KB)
  Non-trainable params: 0 (0.00 B)
 
 #### Optimization 2 Evaluation
 
-268/268 - 1s - 2ms/step - accuracy: 0.7277 - loss: 0.6671
-Loss: 0.6670857071876526, Accuracy: 0.7276967763900757
+268/268 - 0s - 2ms/step - accuracy: 0.7289 - loss: 0.5558
+Loss: 0.5558069944381714, Accuracy: 0.728863000869751
 
 ### Optimization 3
 
-Since the first accuracy decreased a little bit with the extra layer, I removed it. There were 53.2% of the applications that were succesful as opposed to 46.8% unsuccessful. I thought that perhaps balancing things out with the 'compute_class_weight' function could help.
-
+In the third attempt, I went back to 'relu' activation. I used four layers total, three with 'relu' and the final layer with 'sigmoid'. 
 
 
 
