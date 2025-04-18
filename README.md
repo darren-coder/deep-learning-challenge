@@ -1,6 +1,10 @@
 # deep-learning-challenge
 
-Build a model to try to predict the success of charity organizations based on the provided information about them.
+Build a model to try to predict the success of charity organizations based on the provided information about them. I had a really hard time getting this model to improve. After a tip from a classmate, I left the 'NAME' column in the dataframe and then finally got the accuracy above 75%. If I were to use another model I think I would use the 'LeakyRelu' activation. I actually had tried that with a few various combinations of layers and neurons but I couldn't get the score to improve. I would try again with the right columns left in and out and use a similar number of neurons  and layers as 'Optimization 3'.
+
+-Target: 'IS_SUCCESSFUL'
+-Features: All other columns except for 'EIN' and 'SPECIAL_CONSIDERATION'
+-Number of neurons: trial and error
 
 ## Step 1: - Preprocess the Data
 
@@ -64,7 +68,7 @@ Loss: 0.5595679879188538, Accuracy: 0.7274635434150696
 
 ### Optimization 2
 
-In the second attempt I changed to 'tanh' activation and the results were at 72.89% accuracy. I also took the layer I added in optimization 1 away. The results were almost the same as the previous attempts, still not at the goal of 75%.
+In the second attempt I changed to 'tanh' activation and the results were at 72.89% accuracy. I also took the extra layer I added in optimization 1 away. The results were almost the same as the previous attempts, still not at the goal of 75%.
 
 #### Optimization 2 Structure
 
@@ -89,7 +93,32 @@ Loss: 0.5558069944381714, Accuracy: 0.728863000869751
 
 ### Optimization 3
 
-In the third attempt, I went back to 'relu' activation. I used four layers total, three with 'relu' and the final layer with 'sigmoid'. 
+In the third attempt I stayed with 'tanh' and had five total layers. I lowered the number of neurons in each layer and recuced the  number of epochs to 80. I also left the 'NAME' column in the dataframe and removed the 'SPECIAL_CONSIDERATIONS' column. This model achieved 78.13% accuracy, fulfilling the goal by a small amount.
+
+#### Optimization 3 Structure
+
+Model: "sequential"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ dense (Dense)                   │ (None, 20)             │         5,300 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_1 (Dense)                 │ (None, 16)             │           336 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_2 (Dense)                 │ (None, 11)             │           187 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_3 (Dense)                 │ (None, 5)              │            60 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_4 (Dense)                 │ (None, 1)              │             6 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 5,889 (23.00 KB)
+ Trainable params: 5,889 (23.00 KB)
+ Non-trainable params: 0 (0.00 B)
+
+#### Optimization 3 Evaluation
+
+268/268 - 2s - 6ms/step - accuracy: 0.7813 - loss: 0.4613
+Loss: 0.4613131284713745, Accuracy: 0.7813411355018616
 
 
 
